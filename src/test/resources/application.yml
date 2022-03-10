@@ -1,0 +1,24 @@
+spring:
+  datasource:
+#    url: jdbc:h2:tcp://localhost/~/jpashop
+    url: jdbc:h2:mem:test                 #In-memory mode
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop           #create-drop의 경우 테스트가 끝난 후 drop쿼리를 날려 모든 테이블을 지운다. 인메모리에서는 필요 없ㄷ음
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+#---------------------- Spring boot의 경우 설정이 없을 경우 memory모드로 구동하기때문에 위의 설정이 굳이 필요 없다-----------------
+
+
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
