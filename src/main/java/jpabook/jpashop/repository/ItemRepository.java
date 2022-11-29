@@ -1,5 +1,6 @@
 package jpabook.jpashop.repository;
 
+import java.util.Comparator;
 import jpabook.jpashop.domain.item.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

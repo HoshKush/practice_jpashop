@@ -45,4 +45,16 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
+    /**
+     * 변경감지 예제
+     * @Transactional AOP가 끝나는 시점에서 JPA가 영속성컨텍스트 커밋 -> DB 커밋
+     * @param id
+     * @param name
+     */
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+    }
 }
