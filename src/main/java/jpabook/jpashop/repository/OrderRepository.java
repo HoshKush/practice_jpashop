@@ -1,8 +1,8 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.dto.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -112,6 +112,32 @@ public class OrderRepository {
                         " join fetch o.member m" +
                         " join fetch o.delivery d", Order.class
         ).getResultList();
+    }
+
+    /**
+     * 페이징인 안된다.
+     * @return
+     */
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+            "select distinct o from Order o"
+                + " join fetch o.member m"
+                + " join fetch o.delivery d"
+                + " join fetch o.orderItems oi"
+                + " join fetch oi.item i", Order.class)
+            .setFirstResult(1)              // 페이징을 하기위한 속성
+            .setMaxResults(100)             // HHH000104: firstResult/maxResults specified with collection fetch; applying in memory! 발생 메모리에 모든 데이터를 올려서 페이징한다.
+            .getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+            "select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class)        // v3.1방식 사용시 fetch조인 지워도 된다.
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
     }
 }
 
